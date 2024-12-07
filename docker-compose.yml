@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  user-service:
+    build: ./user-service
+    ports:
+      - "5001:5001"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/user_service
+    depends_on:
+      - mongo
+      - rabbitmq
+
+  subscription-service:
+    build: ./subscription-service
+    ports:
+      - "5002:5002"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/subscription_service
+    depends_on:
+      - mongo
+      - rabbitmq
+
+  payment-service:
+    build: ./payment-service
+    ports:
+      - "5003:5003"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/payment_service
+    depends_on:
+      - mongo
+      - rabbitmq
+
+  mongo:
+    image: mongo:5.0
+    container_name: mongo
+    ports:
+      - "27017:27017"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
