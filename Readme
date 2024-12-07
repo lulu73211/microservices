@@ -1,0 +1,128 @@
+Récapitulatif de ce que nous avons fait
+1. Création de trois microservices
+
+    Service Utilisateur (user-service) :
+        Gère l'authentification et la gestion des utilisateurs.
+        Connecté à MongoDB.
+        Fournit des endpoints pour :
+            Créer un utilisateur (/api/users/register).
+            Se connecter (/api/users/login).
+            Obtenir le profil d'un utilisateur (/api/users/profile).
+
+    Service Abonnement (subscription-service) :
+        Gère la gestion des abonnements des utilisateurs.
+        Connecté à MongoDB et RabbitMQ.
+        Fournit des endpoints pour :
+            Créer un abonnement (/api/subscriptions).
+            Lister les abonnements (/api/subscriptions).
+            Mettre à jour un abonnement (/api/subscriptions/:id).
+
+    Service Paiement (payment-service) :
+        Gère la gestion des paiements liés aux abonnements.
+        Connecté à MongoDB et RabbitMQ.
+        Fournit des endpoints pour :
+            Créer un paiement (/api/payments).
+            Lister les paiements (/api/payments).
+            Mettre à jour un paiement (/api/payments/:id).
+
+2. Configuration et lancement
+
+    Les trois services ont été dockerisés et orchestrés avec docker-compose :
+        MongoDB pour stocker les données.
+        RabbitMQ pour la communication entre services.
+    Les services sont lancés avec Docker Compose et exposés sur les ports :
+        5001 : user-service
+        5002 : subscription-service
+        5003 : payment-service
+        15672 : Interface de gestion de RabbitMQ.
+
+Commandes pour tester les services
+Tester user-service
+
+    Créer un utilisateur :
+
+curl -X POST http://localhost:5001/api/users/register \
+-H "Content-Type: application/json" \
+-d '{"email": "test@test.com", "password": "password123"}'
+
+Se connecter et obtenir un JWT :
+
+curl -X POST http://localhost:5001/api/users/login \
+-H "Content-Type: application/json" \
+-d '{"email": "test@test.com", "password": "password123"}'
+
+Obtenir le profil d'un utilisateur (avec le token) :
+
+    curl -X GET http://localhost:5001/api/users/profile \
+    -H "Authorization: Bearer <TOKEN>"
+
+Tester subscription-service
+
+    Créer un abonnement :
+
+curl -X POST http://localhost:5002/api/subscriptions \
+-H "Content-Type: application/json" \
+-d '{"userId": "12345", "name": "Netflix", "price": 12.99, "billingDate": "2024-12-15"}'
+
+Lister les abonnements :
+
+curl -X GET http://localhost:5002/api/subscriptions
+
+Mettre à jour un abonnement :
+
+    curl -X PUT http://localhost:5002/api/subscriptions/<id> \
+    -H "Content-Type: application/json" \
+    -d '{"name": "Netflix Premium", "price": 17.99}'
+
+Tester payment-service
+
+    Créer un paiement :
+
+curl -X POST http://localhost:5003/api/payments \
+-H "Content-Type: application/json" \
+-d '{"subscriptionId": "12345", "amount": 19.99}'
+
+Lister les paiements :
+
+curl -X GET http://localhost:5003/api/payments
+
+Mettre à jour un paiement :
+
+    curl -X PUT http://localhost:5003/api/payments/<id> \
+    -H "Content-Type: application/json" \
+    -d '{"status": "completed"}'
+
+Vérifier RabbitMQ
+
+    Accédez à l'interface de gestion de RabbitMQ :
+        URL : http://localhost:15672
+        Identifiants : guest / guest.
+
+    Vérifiez les messages dans les queues :
+        subscription_notifications
+        payment_notifications
+
+Ce qu'il reste à faire
+
+    API Gateway :
+        Implémentez une API Gateway (par exemple avec Kong, Express, ou NGINX) pour centraliser les requêtes des utilisateurs.
+        Exemple :
+            /users/* redirigé vers user-service.
+            /subscriptions/* redirigé vers subscription-service.
+            /payments/* redirigé vers payment-service.
+
+    Modèle de sécurité avancé :
+        Actuellement, seuls les JWT sont utilisés. Vous pourriez ajouter des rôles ou permissions pour différents types d'utilisateurs.
+
+    Tests automatisés :
+        Ajoutez des tests unitaires et d'intégration pour chaque service avec des outils comme Mocha, Jest, ou Pytest.
+
+    Déploiement :
+        Mettez en place un pipeline CI/CD (par exemple avec GitHub Actions ou GitLab CI/CD).
+        Déployez les services sur une plateforme cloud (AWS, Azure, ou GCP).
+
+    Base de données par service (Bonus) :
+        Actuellement, MongoDB est utilisé pour tous les services. Vous pourriez attribuer une base spécifique à chaque service.
+
+    Documentation :
+        Documentez vos endpoints avec Swagger ou Postman pour une meilleure utilisation.
