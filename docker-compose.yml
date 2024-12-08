@@ -52,4 +52,3 @@ services:
       - user-service
       - subscription-service
       - payment-service
-

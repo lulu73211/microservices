@@ -8,10 +8,10 @@ const app = express();
 
 // Middleware
 app.use(bodyParser.json());
-app.use('/api', paymentRoutes);
+app.use('/api/payments', paymentRoutes); // Monté sur /api/payments
 
 // Connexion à MongoDB
-mongoose.connect('mongodb://mongo:27017/payment_service', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://mongo:27017/payment_service')
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('MongoDB connection error:', err));
 
