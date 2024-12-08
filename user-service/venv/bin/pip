@@ -1,4 +1,4 @@
-#!/home/lulu/user-service/venv/bin/python3.12
+#!/home/lulu/microservices/user-service/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -1,23 +1,20 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from pymongo import MongoClient
-from config import Config
-
-db = None
 
 def create_app():
-    global db
     app = Flask(__name__)
-    app.config.from_object(Config)
 
-    # Initialize MongoDB
-    client = MongoClient(app.config['MONGO_URI'])
-    db = client.get_default_database()
+    # Configuration de Flask
+    app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # Remplacez par une vraie clé secrète
+    jwt = JWTManager(app)
 
-    # Initialize JWT
-    JWTManager(app)
+    # Connexion à MongoDB
+    client = MongoClient("mongodb://mongo:27017/")
+    app.db = client.user_service
 
-    from app.routes import user_bp
+    # Enregistrer les routes
+    from .routes import user_bp
     app.register_blueprint(user_bp, url_prefix='/api/users')
 
     return app

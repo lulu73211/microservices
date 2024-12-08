@@ -1,36 +1,44 @@
-from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-from app.models import User
+from flask import Blueprint, request, jsonify, current_app
+from flask_jwt_extended import create_access_token
+from .models import User
 
 user_bp = Blueprint('user', __name__)
 
 @user_bp.route('/register', methods=['POST'])
-def register():
+def register_user():
     data = request.json
-    if not data.get('email') or not data.get('password'):
-        return jsonify({'error': 'Email and password are required'}), 400
+    email = data.get('email')
+    password = data.get('password')
 
-    if User.find_by_email(data['email']):
-        return jsonify({'error': 'User already exists'}), 400
+    if not email or not password:
+        return jsonify({"error": "Email and password are required"}), 400
 
-    user_id = User.create_user(data)
-    return jsonify({'message': 'User created', 'user_id': user_id}), 201
+    # Vérifier si l'utilisateur existe déjà
+    db = current_app.db
+    if db.users.find_one({"email": email}):
+        return jsonify({"error": "User already exists"}), 400
+
+    # Ajouter l'utilisateur
+    user = User(email, password)
+    db.users.insert_one({"email": user.email, "password": user.password})
+
+    return jsonify({"message": "User registered successfully"}), 201
 
 @user_bp.route('/login', methods=['POST'])
-def login():
+def login_user():
     data = request.json
-    if not data.get('email') or not data.get('password'):
-        return jsonify({'error': 'Email and password are required'}), 400
+    email = data.get('email')
+    password = data.get('password')
 
-    user = User.find_by_email(data['email'])
-    if not user or not User.verify_password(user['password'], data['password']):
-        return jsonify({'error': 'Invalid credentials'}), 401
+    if not email or not password:
+        return jsonify({"error": "Email and password are required"}), 400
 
-    token = create_access_token(identity={'email': user['email']})
-    return jsonify({'access_token': token}), 200
+    # Rechercher l'utilisateur
+    db = current_app.db
+    user = db.users.find_one({"email": email})
+    if not user or not User.check_password(user['password'], password):
+        return jsonify({"error": "Invalid credentials"}), 401
 
-@user_bp.route('/profile', methods=['GET'])
-@jwt_required()
-def profile():
-    identity = get_jwt_identity()
-    return jsonify({'profile': identity}), 200
+    # Générer un token JWT
+    access_token = create_access_token(identity={"email": email})
+    return jsonify({"access_token": access_token}), 200
