@@ -48,12 +48,7 @@ Ce projet implémente une architecture basée sur des microservices, incluant le
 
 ## Utilisation
 
-### 1. Tester les endpoints avec Postman
-Voici une section de votre fichier `README.md` documentant les routes de l'API :
-
----
-
-## 📖 API Routes Documentation
+### 1. 📖 API Routes Documentation
 
 Cette section décrit les différentes routes disponibles dans l'API Gateway, leur méthode HTTP, leurs paramètres, et les réponses attendues.
 
