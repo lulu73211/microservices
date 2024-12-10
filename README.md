@@ -49,7 +49,131 @@ Ce projet implémente une architecture basée sur des microservices, incluant le
 ## Utilisation
 
 ### 1. Tester les endpoints avec Postman
-Importez la collection Postman fournie dans le projet (fichier `.json`).
+Voici une section de votre fichier `README.md` documentant les routes de l'API :
+
+---
+
+## 📖 API Routes Documentation
+
+Cette section décrit les différentes routes disponibles dans l'API Gateway, leur méthode HTTP, leurs paramètres, et les réponses attendues.
+
+---
+
+### **Authentication Routes**
+#### **Login**
+- **URL** : `/user/login`
+- **Method** : `POST`
+- **Description** : Authentifie un utilisateur et génère un token JWT.
+- **Request Body** :
+  ```json
+  {
+    "username": "string",
+    "password": "string"
+  }
+  ```
+- **Response** :
+  - **200 OK** :
+    ```json
+    {
+      "access_token": "string"
+    }
+    ```
+  - **401 Unauthorized** :
+    ```json
+    {
+      "error": "Invalid credentials"
+    }
+    ```
+
+---
+
+### **Payment Routes**
+#### **Create Payment**
+- **URL** : `/payment`
+- **Method** : `POST`
+- **Description** : Crée un nouveau paiement (protection JWT requise).
+- **Headers** :
+  - `Authorization: Bearer <token_jwt>`
+- **Request Body** :
+  ```json
+  {
+    "amount": "number",
+    "currency": "string",
+    "description": "string"
+  }
+  ```
+- **Response** :
+  - **201 Created** : Détails du paiement créé.
+  - **401 Unauthorized** : Si le JWT est manquant ou invalide.
+
+#### **Get Payments**
+- **URL** : `/payment`
+- **Method** : `GET`
+- **Description** : Récupère la liste des paiements (protection JWT requise).
+- **Headers** :
+  - `Authorization: Bearer <token_jwt>`
+- **Response** :
+  - **200 OK** : Liste des paiements.
+  - **401 Unauthorized** : Si le JWT est manquant ou invalide.
+
+---
+
+### **Subscription Routes**
+#### **Create Subscription**
+- **URL** : `/subscription`
+- **Method** : `POST`
+- **Description** : Crée un nouvel abonnement (protection JWT requise).
+- **Headers** :
+  - `Authorization: Bearer <token_jwt>`
+- **Request Body** :
+  ```json
+  {
+    "user_id": "string",
+    "plan": "string"
+  }
+  ```
+- **Response** :
+  - **201 Created** : Détails de l'abonnement créé.
+  - **401 Unauthorized** : Si le JWT est manquant ou invalide.
+
+#### **Get Subscriptions**
+- **URL** : `/subscription`
+- **Method** : `GET`
+- **Description** : Récupère la liste des abonnements (protection JWT requise).
+- **Headers** :
+  - `Authorization: Bearer <token_jwt>`
+- **Response** :
+  - **200 OK** : Liste des abonnements.
+  - **401 Unauthorized** : Si le JWT est manquant ou invalide.
+
+---
+
+### **User Management Routes**
+#### **Register User**
+- **URL** : `/user/register`
+- **Method** : `POST`
+- **Description** : Inscrit un nouvel utilisateur (protection JWT requise).
+- **Headers** :
+  - `Authorization: Bearer <token_jwt>`
+- **Request Body** :
+  ```json
+  {
+    "username": "string",
+    "email": "string",
+    "password": "string"
+  }
+  ```
+- **Response** :
+  - **201 Created** : Détails de l'utilisateur créé.
+  - **401 Unauthorized** : Si le JWT est manquant ou invalide.
+
+
+### Notes
+- Toutes les routes protégées nécessitent un en-tête **Authorization** avec un token JWT valide :
+  ```
+  Authorization: Bearer <token_jwt>
+  ```
+- Utilisez un outil comme [Postman](https://www.postman.com/) ou `curl` pour tester les endpoints.
 
 ### 2. Commandes curl pour tester les endpoints
 #### User Service
