@@ -1,0 +1,6 @@
+payment-service/package-lock.json
+payment-service/package.json
+payment-service/node_modules/.package-lock.json
+subscription-service/package-lock.json
+subscription-service/package.json
+subscription-service/node_modules/.package-lock.json
