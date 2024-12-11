@@ -82,8 +82,8 @@ Cette section décrit les différentes routes disponibles dans l'API Gateway, le
   | Parameter        | Type     | Description | Description             |
   | :--------------- | :------- | :---------- | :---------------------- |
   | `subscriptionId` | `string` | `required`  | the subscription ID     |
-  | `amount`         | `string` | `required`  | the payment amount      |
-  | `paymentDate`    | `string` |             | the payment date        |
+  | `amount`         | `number` | `required`  | the payment amount      |
+  | `paymentDate`    | `Date`   |             | the payment date        |
 
 - **Response** :
   - **201 Created** : Détails du paiement créé.
@@ -112,8 +112,8 @@ Cette section décrit les différentes routes disponibles dans l'API Gateway, le
   | Parameter     | Type     | Description | Description                   |
   | :------------ | :------- | :---------- | :---------------------------- |
   | `name`        | `string` | `required`  | the subscription name         |
-  | `price`       | `string` | `required`  | the subscription price        |
-  | `billingDate` | `string` |             | the subscription billing date |
+  | `price`       | `number` | `required`  | the subscription price        |
+  | `billingDate` | `Date`   |             | the subscription billing date |
 
 - **Response** :
   - **201 Created** : Détails de l'abonnement créé.
