@@ -56,53 +56,41 @@ Cette section décrit les différentes routes disponibles dans l'API Gateway, le
 
 ### **Authentication Routes**
 #### **Login**
-- **URL** : `/user/login`
+- **URL** : `http:localhost:5005/user/login`
 - **Method** : `POST`
 - **Description** : Authentifie un utilisateur et génère un token JWT.
 - **Request Body** :
-  ```json
-  {
-    "username": "string",
-    "password": "string"
-  }
-  ```
+  | Parameter  | Type     | Description | Description       |
+  | :--------- | :------- | :---------- | :---------------- |
+  | `email`    | `string` | `required`  | the user email    |
+  | `password` | `string` | `required`  | the user password |
+
 - **Response** :
-  - **200 OK** :
-    ```json
-    {
-      "access_token": "string"
-    }
-    ```
-  - **401 Unauthorized** :
-    ```json
-    {
-      "error": "Invalid credentials"
-    }
-    ```
+  - **200 OK** : Renvoie le token_jwt
+  - **401 Unauthorized** : Informations d'identification invalides
 
 ---
 
 ### **Payment Routes**
 #### **Create Payment**
-- **URL** : `/payment`
+- **URL** : `http:localhost:5005/payment`
 - **Method** : `POST`
 - **Description** : Crée un nouveau paiement (protection JWT requise).
 - **Headers** :
   - `Authorization: Bearer <token_jwt>`
 - **Request Body** :
-  ```json
-  {
-    "amount": "number",
-    "currency": "string",
-    "description": "string"
-  }
-  ```
+  | Parameter        | Type     | Description | Description             |
+  | :--------------- | :------- | :---------- | :---------------------- |
+  | `subscriptionId` | `string` | `required`  | the subscription ID     |
+  | `amount`         | `number` | `required`  | the payment amount      |
+  | `paymentDate`    | `Date`   |             | the payment date        |
+
 - **Response** :
   - **201 Created** : Détails du paiement créé.
   - **401 Unauthorized** : Si le JWT est manquant ou invalide.
 
 #### **Get Payments**
-- **URL** : `/payment`
+- **URL** : `http:localhost:5005/payment`
 - **Method** : `GET`
 - **Description** : Récupère la liste des paiements (protection JWT requise).
 - **Headers** :
@@ -115,24 +103,24 @@ Cette section décrit les différentes routes disponibles dans l'API Gateway, le
 
 ### **Subscription Routes**
 #### **Create Subscription**
-- **URL** : `/subscription`
+- **URL** : `http:localhost:5005/subscription`
 - **Method** : `POST`
 - **Description** : Crée un nouvel abonnement (protection JWT requise).
 - **Headers** :
   - `Authorization: Bearer <token_jwt>`
 - **Request Body** :
-  ```json
-  {
-    "user_id": "string",
-    "plan": "string"
-  }
-  ```
+  | Parameter     | Type     | Description | Description                   |
+  | :------------ | :------- | :---------- | :---------------------------- |
+  | `name`        | `string` | `required`  | the subscription name         |
+  | `price`       | `number` | `required`  | the subscription price        |
+  | `billingDate` | `Date`   |             | the subscription billing date |
+
 - **Response** :
   - **201 Created** : Détails de l'abonnement créé.
   - **401 Unauthorized** : Si le JWT est manquant ou invalide.
 
 #### **Get Subscriptions**
-- **URL** : `/subscription`
+- **URL** : `http:localhost:5005/subscription`
 - **Method** : `GET`
 - **Description** : Récupère la liste des abonnements (protection JWT requise).
 - **Headers** :
@@ -145,19 +133,18 @@ Cette section décrit les différentes routes disponibles dans l'API Gateway, le
 
 ### **User Management Routes**
 #### **Register User**
-- **URL** : `/user/register`
+- **URL** : `http:localhost:5005/user/register`
 - **Method** : `POST`
 - **Description** : Inscrit un nouvel utilisateur (protection JWT requise).
 - **Headers** :
   - `Authorization: Bearer <token_jwt>`
 - **Request Body** :
-  ```json
-  {
-    "username": "string",
-    "email": "string",
-    "password": "string"
-  }
-  ```
+  | Parameter  | Type     | Description | Description       |
+  | :--------- | :------- | :---------- | :---------------- |
+  | `username` | `string` | `required`  | the username      |
+  | `email`    | `string` | `required`  | the user email    |
+  | `password` | `string` | `required`  | the user password |
+
 - **Response** :
   - **201 Created** : Détails de l'utilisateur créé.
   - **401 Unauthorized** : Si le JWT est manquant ou invalide.

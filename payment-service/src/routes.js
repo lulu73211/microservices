@@ -28,9 +28,11 @@ router.post('/', async (req, res) => {
 
 // Récupérer tous les paiements
 router.get('/', async (req, res) => {
+    const { userId } = req.body;
+
     try {
-        const payments = await Payment.find();
-        res.status(200).json(payments);
+        const payments = await Payment.find({userId});
+        res.status(200).json(payments || []);
     } catch (error) {
         console.error('Error fetching payments:', error.message);
         res.status(500).json({ error: 'Internal server error' });

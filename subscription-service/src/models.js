@@ -4,7 +4,7 @@ const subscriptionSchema = new mongoose.Schema({
     userId: { type: String, required: true },
     name: { type: String, required: true },
     price: { type: Number, required: true },
-    billingDate: { type: Date, required: true },
+    billingDate: { type: Date, required: true, default: Date.now },
 }, { timestamps: true });
 
 const Subscription = mongoose.model('Subscription', subscriptionSchema);

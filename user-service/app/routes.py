@@ -39,6 +39,4 @@ def login_user():
     if not user or not User.check_password(user['password'], password):
         return jsonify({"error": "Invalid credentials"}), 401
 
-    # Générer un token JWT
-    access_token = create_access_token(identity={"email": email})
-    return jsonify({"access_token": access_token}), 200
+    return jsonify({"user_id": str(user['_id'])}), 200
