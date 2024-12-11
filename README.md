@@ -161,7 +161,7 @@ Cette section décrit les différentes routes disponibles dans l'API Gateway, le
 #### User Service
 - **Inscription :**
   ```bash
-  curl -X POST http://localhost:5005/user/register   -H "Content-Type: application/json"   -d '{"email": "user@example.com", "password": "password123"}'
+  curl -X POST http://localhost:5005/user/register   -H "Content-Type: application/json"   -d '{"username":"username", "email": "user@example.com", "password": "password123"}'
   ```
 
 - **Connexion :**
@@ -172,23 +172,23 @@ Cette section décrit les différentes routes disponibles dans l'API Gateway, le
 #### Subscription Service
 - **Créer un abonnement :**
   ```bash
-  curl -X POST http://localhost:5005/subscription   -H "Content-Type: application/json"   -d '{"userId": "12345", "name": "Netflix", "price": 12.99, "billingDate": "2024-12-15"}'
+  curl -X POST http://localhost:5005/subscription  -H "Content-Type: application/json"  -H "Authorization: Bearer <token_jwt>"  -d '{"name": "Netflix", "price": 12.99}'
   ```
 
 - **Lister les abonnements :**
   ```bash
-  curl -X GET http://localhost:5005/subscription
+  curl -X GET http://localhost:5005/subscription -H "Authorization: Bearer <token_jwt>"
   ```
 
 #### Payment Service
 - **Créer un paiement :**
   ```bash
-  curl -X POST http://localhost:5005/payment   -H "Content-Type: application/json"   -d '{"userId": "12345", "subscriptionId": "abcde12345", "amount": 12.99, "paymentDate": "2024-12-15"}'
+   curl -X POST http://localhost:5005/payment  -H "Content-Type: application/json"  -H "Authorization: Bearer <token_jwt>"  -d '{"subscriptionId": "abcde12345", "amount": 12.99}'
   ```
 
 - **Lister les paiements :**
   ```bash
-  curl -X GET http://localhost:5005/payment
+  curl -X GET http://localhost:5005/payment  -H "Authorization: Bearer <token_jwt>"
   ```
 
 ---
