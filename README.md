@@ -60,7 +60,7 @@ Cette section décrit les différentes routes disponibles dans l'API Gateway, le
 - **Method** : `POST`
 - **Description** : Authentifie un utilisateur et génère un token JWT.
 - **Request Body** :
-  | Parameter  | Type     | Description | Description       |
+  | Parameter  | Type     | Default     | Description       |
   | :--------- | :------- | :---------- | :---------------- |
   | `email`    | `string` | `required`  | the user email    |
   | `password` | `string` | `required`  | the user password |
@@ -79,11 +79,11 @@ Cette section décrit les différentes routes disponibles dans l'API Gateway, le
 - **Headers** :
   - `Authorization: Bearer <token_jwt>`
 - **Request Body** :
-  | Parameter        | Type     | Description | Description             |
-  | :--------------- | :------- | :---------- | :---------------------- |
-  | `subscriptionId` | `string` | `required`  | the subscription ID     |
-  | `amount`         | `number` | `required`  | the payment amount      |
-  | `paymentDate`    | `Date`   |             | the payment date        |
+  | Parameter        | Type     | Default      | Description             |
+  | :--------------- | :------- | :----------- | :---------------------- |
+  | `subscriptionId` | `string` | `required`   | the subscription ID     |
+  | `amount`         | `number` | `required`   | the payment amount      |
+  | `paymentDate`    | `Date`   | `Date.now()` | the payment date        |
 
 - **Response** :
   - **201 Created** : Détails du paiement créé.
@@ -109,11 +109,11 @@ Cette section décrit les différentes routes disponibles dans l'API Gateway, le
 - **Headers** :
   - `Authorization: Bearer <token_jwt>`
 - **Request Body** :
-  | Parameter     | Type     | Description | Description                   |
-  | :------------ | :------- | :---------- | :---------------------------- |
-  | `name`        | `string` | `required`  | the subscription name         |
-  | `price`       | `number` | `required`  | the subscription price        |
-  | `billingDate` | `Date`   |             | the subscription billing date |
+  | Parameter     | Type     | Default      | Description                   |
+  | :------------ | :------- | :----------- | :---------------------------- |
+  | `name`        | `string` | `required`   | the subscription name         |
+  | `price`       | `number` | `required`   | the subscription price        |
+  | `billingDate` | `Date`   | `Date.now()` | the subscription billing date |
 
 - **Response** :
   - **201 Created** : Détails de l'abonnement créé.
@@ -139,7 +139,7 @@ Cette section décrit les différentes routes disponibles dans l'API Gateway, le
 - **Headers** :
   - `Authorization: Bearer <token_jwt>`
 - **Request Body** :
-  | Parameter  | Type     | Description | Description       |
+  | Parameter  | Type     | Default     | Description       |
   | :--------- | :------- | :---------- | :---------------- |
   | `username` | `string` | `required`  | the username      |
   | `email`    | `string` | `required`  | the user email    |
