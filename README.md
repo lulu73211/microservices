@@ -11,7 +11,7 @@ Ce projet implémente une architecture basée sur des microservices, incluant le
 - **MongoDB :** Base de données pour chaque service.
 
 ## Architecture
-![Diagramme:](images\diagramme micro.png "Diagramme des Microservices")
+![Diagramme:](images\diagrammeMicro.png "Diagramme des Microservices")
 ![DiagrammeSéQUENCE:](images\sequence.png "Diagramme de séquences des Microservices")
 
 ## Technologies utilisées
